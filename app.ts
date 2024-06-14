@@ -1,6 +1,5 @@
 // Importing necessary modules from Deno standard library
 import { serve } from "https://deno.land/std/http/server.ts";
-import { v4 } from "https://deno.land/std/uuid/mod.ts";
 
 // A map to store the text associated with a UUID
 const textMap = new Map<string, string>();
@@ -35,7 +34,7 @@ async function handleRequest(request: Request): Promise<Response> {
     const formData = await request.formData();
     const text = formData.get("text");
     if (typeof text === "string") {
-      const uuid = v4.generate();
+      const uuid = crypto.randomUUID();
       textMap.set(uuid, text);
       const link = `${url.origin}/${uuid}`;
       return new Response(generateFormPage(link), {
